@@ -1,79 +1,65 @@
 <html>
 	<head>
+		<!-- Twitter Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Jquery -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+		<!-- Custom JS -->
+		<script type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
 
 		<title>Capital One Money Transfer</title>
 	</head>
 
-	<body style="padding: 5%;">
+	<body style="padding: 20px;">
 		<div class="container-fluid">
+			
+			<!-- Column Titles Row -->
 			<div class="row">
-
 				<div class="col-md-1">&nbsp;</div>
-
 				<div class="col-md-4">
-					<div class="well well-sm">
-						<p>My Checking Account</p>
-						<p>$1000.50</p>
-					</div>
-		    	</div>
-
-		    	<div class="col-md-2">&nbsp;</div>
-
-		    	<div class="col-md-4">
-		    		<div class="well well-sm">
-						<p>Savings Account</p>
-						<p>$50500.32</p>
-					</div>
-		    	</div>
-
-		    	<div class="col-md-1">&nbsp;</div>
-		    </div>
-		    <div class="row">
-
-		    	<div class="col-md-1">&nbsp;</div>
-
-		    	<div class="col-md-4">
-		    		<div class="well well-sm">
-						<p>Savings Account</p>
-						<p>$50500.32</p>
-					</div>
-		    	</div>
-		    	<div class="col-md-2">&nbsp;</div>
-
-		    	<div class="col-md-4">
-		    		<div class="well well-sm">
-						<p>Savings Account</p>
-						<p>$50500.32</p>
-					</div>
-		    	</div>
-
-		    	<div class="col-md-1">&nbsp;</div>
-
+					<h3>My Accounts</h3>
+					<br>
+				</div>
+				<div class="col-md-1">&nbsp;</div>
+				<div class="col-md-4">
+					<h3>Transfer Money</h3>
+					<br>
+				</div>
 			</div>
 
-			<div class="row">
-		    	<div class="col-md-1">&nbsp;</div>
+				<div class="row">
+					<div class="col-md-1">&nbsp;</div>
+			
+					<!-- Accounts List Column -->
+					<div class="col-md-4">
+						{% for account in accounts %}
+							<div class="row">
+								<div class="well well-sm" id="{{ account._id }}">
+									<p style="font-size: 20px;">{{ account.nickname }}</p>
+									<p style="font-size: 40px;">{{ format_price(account.balance) }}</p>
+								</div>
+							</div>
+						{% endfor %}
+			    	</div>
+				
+					<div class="col-md-1">&nbsp;</div>
 
-		    	<div class="col-md-4">
-		    		<div class="well well-sm">
-						<p>Savings Account</p>
-						<p>$50500.32</p>
+					<!-- Money Transfer Column -->
+					<div class="col-md-4">
+						<div class="well well-sm">
+							<p>To: <span id="transferToAccount"></span></p>
+							<p>From: <span id="transferFromAccount"></span></p>
+							<p>Amount: <span id="transferAmount"></span></p>
+						</div>
+
+						<button class="btn btn-info">Confirm Transfer</button>
+
 					</div>
-		    	</div>
+				</div>
+			
 
-		    	<div class="col-md-2">&nbsp;</div>
-		    	
-		    	<div class="col-md-4">
-		    		<div class="well well-sm">
-						<p>Savings Account</p>
-						<p>$50500.32</p>
-					</div>
-		    	</div>
-
-		    	<div class="col-md-1">&nbsp;</div>
-
-	    	</div>
     	</div>
 	</body>
 </html>

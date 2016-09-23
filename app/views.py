@@ -5,6 +5,8 @@ import requests
 import json
 import json
 
+from app.utils import format_price
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -13,16 +15,18 @@ def index():
 	apiKey = "8c9f951688f6cf33204c1711017c5660";
 	accountsUrl = 'http://api.reimaginebanking.com/accounts?key={}'.format(apiKey)
 
-	customersUrl = 'http://api.reimaginebanking.com/customers?key={}'.format(apiKey)
-
 	# make call to the Nessie Accounts endpoint
 	accountsResponse = requests.get(accountsUrl)
 
-	customersResponse = requests.get(customersUrl)
-
 	if accountsResponse.status_code == 200:
 		accounts = json.loads(accountsResponse.text)
-		customers = json.loads(customersResponse.text)
-		return render_template("home.html", accounts=accounts, customers=customersResponse)
+
+		# filter out credit card accounts (can't transfer money to/from them)
+		accountsNoCards = []
+		for account in accounts:
+			if account["type"] != "Credit Card":
+				accountsNoCards.append(account);
+
+		return render_template("home.html", accounts=accountsNoCards, format_price=format_price)
 	else:
 		return render_template("notfound.html")
