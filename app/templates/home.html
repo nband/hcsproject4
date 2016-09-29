@@ -1,4 +1,4 @@
-<html>
+<html>	
 	<head>
 		<!-- Twitter Bootstrap -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -29,37 +29,22 @@
 				</div>
 			</div>
 
-				<div class="row">
-					<div class="col-md-1">&nbsp;</div>
+			<!-- Column Content Row -->
+			<div class="row">
+				<div class="col-md-1">&nbsp;</div>
+		
+				<!-- Accounts List Column -->
+				<div class="col-md-4">
+					{% include 'accounts.html' %}
+		    	</div>
 			
-					<!-- Accounts List Column -->
-					<div class="col-md-4">
-						{% for account in accounts %}
-							<div class="row">
-								<div class="well well-sm" id="{{ account._id }}">
-									<p style="font-size: 20px;">{{ account.nickname }}</p>
-									<p style="font-size: 40px;">{{ format_price(account.balance) }}</p>
-								</div>
-							</div>
-						{% endfor %}
-			    	</div>
-				
-					<div class="col-md-1">&nbsp;</div>
+				<div class="col-md-1">&nbsp;</div>
 
-					<!-- Money Transfer Column -->
-					<div class="col-md-4">
-						<div class="well well-sm">
-							<p>To: <span id="transferToAccount"></span></p>
-							<p>From: <span id="transferFromAccount"></span></p>
-							<p>Amount: <span id="transferAmount"></span></p>
-						</div>
-
-						<button class="btn btn-info">Confirm Transfer</button>
-
-					</div>
+				<!-- Money Transfer Column -->
+				<div class="col-md-4">
+					{% include 'transfer.html' %}
 				</div>
-			
-
+			</div>
     	</div>
 	</body>
 </html>

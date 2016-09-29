@@ -1,0 +1,8 @@
+{% for account in accounts %}
+	<div class="row">
+		<div class="well well-sm" id="{{ account._id }}">
+			<p style="font-size: 20px;">{{ account.nickname }}</p>
+			<p style="font-size: 40px;">{{ format_price(account.balance) }}</p>
+		</div>
+	</div>
+{% endfor %}
