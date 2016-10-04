@@ -4,6 +4,7 @@ $(function(){
 
 	var idOfSelectedToAccount;
 	var idOfSelectedFromAccount;
+	var balanceAmount;
 
 
 	/* ========== Selecting To Account Button ========== */
@@ -24,7 +25,7 @@ $(function(){
 		$(".account").filter(function() {
 				return !(isSelected($(this)));
 			}).css(selectingAccountsCss);
-		
+
 		selectingFromAccount = true;
 		selectingToAccount = false;
 	});
@@ -46,10 +47,6 @@ $(function(){
 		var selected = isToAccountSelected || isFromAccountSelected;
 		
 		if (selectingToAccount) {
-			// mark this account as selected
-			$(this).data('selectedToAccount', true);
-			$(this).data('selectedFromAccount', false);
-
 			// store the id of this account
 			idOfSelectedToAccount = $(this).attr('id')
 
@@ -64,15 +61,24 @@ $(function(){
 			// clear any other To Account selections that have been made
 			resetToData();
 
+			// mark this account as selected
+			$(this).data('selectedToAccount', true);
+			$("#toAccount").val(idOfSelectedToAccount);
+
+			// if the From Account is selected, overwrite it
+			if ($(this).data('selectedFromAccount') == true) {
+				$(this).data('selectedFromAccount', false);
+				idOfSelectedFromAccount = undefined;
+				$("#transferFromAccount").text("");
+				$("#fromAccount").val("");
+			}
+			
 			// add a border to the selected account to show it's selected
 			$('#' + idOfSelectedToAccount).css(selectedToAccountCss);
 
+			// no longer selecting a To Account
 			selectingToAccount = false;
 		} else if (selectingFromAccount) {
-			// mark this account as selected
-			$(this).data('selectedFromAccount', true);
-			$(this).data('selectedToAccount', false);
-
 			// store the id of this account
 			idOfSelectedFromAccount = $(this).attr('id')
 
@@ -87,9 +93,22 @@ $(function(){
 			// clear any other From Account selections that have been made
 			resetFromData();
 
+			// mark this account as selected
+			$(this).data('selectedFromAccount', true);
+			$("#fromAccount").val(idOfSelectedFromAccount);
+			
+			// if the To Account is selected, overwrite it
+			if ($(this).data('selectedToAccount') == true) {
+				$(this).data('selectedToAccount', false);
+				idOfSelectedToAccount = undefined;
+				$("#transferToAccount").text("");
+				$("#toAccount").val("");
+			}
+
 			// add a border to the selected account to show it's selected
 			$('#' + idOfSelectedFromAccount).css(selectedFromAccountCss);
 
+			// no longer selecting a From Account
 			selectingFromAccount = false;
 		} else if (selected) {
 			if (isToAccountSelected) {
@@ -104,11 +123,10 @@ $(function(){
 	});
 
 
-
 	/* ========== Helper Methods ========== */
 
 	var isSelected = function(obj) {
-		return obj.data('selectedToAccount') == true;
+		return obj.data('selectedToAccount') == true || obj.data('selectedFromAccount') == true;
 	}
 
 	var isToSelected = function(obj) {
@@ -130,7 +148,6 @@ $(function(){
 			return $(this).data("selectedFromAccount") == true
 		}).data("selectedFromAccount", false);
 	}
-
 
 	/* ========== CSS Helper Library ========== */
 

@@ -11,8 +11,11 @@
 	<br>
 	<br>
 
-	<p>Amount: <span id="transferAmount"></span></p>
-	<input type="text"></input>
+	<form action="/transfer" method="POST">
+		<p>Amount: <span id="transferAmount"></span></p>
+		<input id="balance" type="text" name="balance"></input>
+		<input id="toAccount" type="hidden" name="toAccount"></input>
+		<input id="fromAccount" type="hidden" name="fromAccount"></input>
+		<input type="submit" class="btn btn-primary" name="Confirm Transfer">
+	</form>
 </div>
-
-<button class="btn btn-primary">Confirm Transfer</button>
