@@ -33,7 +33,7 @@ def index():
 
 	# make call to the Nessie Accounts endpoint
 	accountsResponse = requests.get(accountsUrl)
-
+	
 	if accountsResponse.status_code == 200:
 		accounts = json.loads(accountsResponse.text)
 
@@ -43,7 +43,16 @@ def index():
 			if account["type"] != "Credit Card":
 				accountsNoCards.append(account);
 
-		return render_template("home.html", accounts=accountsNoCards, format_price=format_price)
+		transfers = []
+		# for each account make a request to get it's transfers where it is the payer only...
+		for account in accountsNoCards:
+			transfersUrl = 'http://api.reimaginebanking.com/accounts/{}/transfers?key={}'.format(account['_id'], apiKey)
+			transfersResponse = requests.get(transfersUrl)
+
+			if transfersResponse.status_code == 200:
+				transfers.extend(json.loads(transfersResponse.text))
+
+		return render_template("home.html", accounts=accountsNoCards, format_price=format_price, transfers=transfers)
 	else:
 		return render_template("notfound.html")
 
