@@ -10,8 +10,8 @@
 	<tr>
 		<td>{{ transfer.payer_id }}</td>
 		<td>{{ transfer.payee_id }}</td>
-		<td>{{ transfer.amount }}</td>
-		<td>{{ transfer.status }}</td>
+		<td>${{ transfer.amount }}</td>
+		<td class='status'>{{ transfer.status }}</td>
 	</tr>
 	{% endfor %}
 

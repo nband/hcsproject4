@@ -6,6 +6,19 @@ $(function(){
 	var idOfSelectedFromAccount;
 	var balanceAmount;
 
+	/* ========== Set Style for Transfer Table ========== */
+	$(".status").each(function() {
+		parent = $(this).parent();
+		if ($(this).text() == "cancelled") {
+			parent.css('color', 'white');
+			parent.css('background-color', 'red');
+		} else if ($(this).text() == "pending") {
+			parent.css('background-color', 'yellow');
+		} else if ($(this).text() == "executed") {
+			parent.css('color', 'white');
+			parent.css('background-color', 'green');
+		}
+	});
 
 	/* ========== Selecting To Account Button ========== */
 

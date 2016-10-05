@@ -18,7 +18,6 @@ class Medium(Enum):
 # http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/
 @app.after_request
 def after_request(response):
-	print response
 	response.headers.add('Access-Control-Allow-Origin', '*')
 	response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
 	response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
@@ -46,7 +45,7 @@ def index():
 		transfers = []
 		# for each account make a request to get it's transfers where it is the payer only...
 		for account in accountsNoCards:
-			transfersUrl = 'http://api.reimaginebanking.com/accounts/{}/transfers?key={}'.format(account['_id'], apiKey)
+			transfersUrl = 'http://api.reimaginebanking.com/accounts/{}/transfers?type=payer&key={}'.format(account['_id'], apiKey)
 			transfersResponse = requests.get(transfersUrl)
 
 			if transfersResponse.status_code == 200:
@@ -59,6 +58,7 @@ def index():
 # Transfer post route.  Makes request to Nessie API to create a transfer.
 @app.route('/transfer', methods=['POST'])
 def postTransfer():
+	print("MADE IT HERE")
 	# get values from the request (populated by user into the form)
 	toAccount = request.form["toAccount"]
 	fromAccount = request.form["fromAccount"]
@@ -76,7 +76,6 @@ def postTransfer():
 		'transaction_date' : dateString,
 		'description' : description
 	}
-	print(body)
 
 	url = "http://api.reimaginebanking.com/accounts/{}/transfers?key={}".format(fromAccount, apiKey)
 	response = requests.post(
@@ -84,5 +83,4 @@ def postTransfer():
 		data=json.dumps(body),
 		headers={'content-type':'application/json'},)
 
-	print(response.text)
 	return render_template("notfound.html")
