@@ -10,13 +10,11 @@ $(function(){
 	$(".status").each(function() {
 		parent = $(this).parent();
 		if ($(this).text() == "cancelled") {
-			parent.css('color', 'white');
-			parent.css('background-color', 'red');
+			parent.css('background-color', '#ECC3BF');
 		} else if ($(this).text() == "pending") {
-			parent.css('background-color', 'yellow');
+			parent.css('background-color', '#FFFACD');
 		} else if ($(this).text() == "executed") {
-			parent.css('color', 'white');
-			parent.css('background-color', 'green');
+			parent.css('background-color', '#BCED91');
 		}
 	});
 
