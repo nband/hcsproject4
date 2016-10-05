@@ -9,8 +9,12 @@ from app.utils import format_price
 
 from enum import Enum
 
+# move this to a config file that will not be included in the repo
 apiKey = "8c9f951688f6cf33204c1711017c5660";
 
+# enum for the medium of transfer
+#  * balance - currency
+#  * rewards - rewards points
 class Medium(Enum):
 	BALANCE = "balance"
 	REWARDS = "rewards"
@@ -33,6 +37,7 @@ def index():
 	# make call to the Nessie Accounts endpoint
 	accountsResponse = requests.get(accountsUrl)
 	
+	# if the accounts call responds with success
 	if accountsResponse.status_code == 200:
 		accounts = json.loads(accountsResponse.text)
 
@@ -42,12 +47,15 @@ def index():
 			if account["type"] != "Credit Card":
 				accountsNoCards.append(account);
 
+		# variable which will keep track of all transfers to pass to UI
 		transfers = []
+		
 		# for each account make a request to get it's transfers where it is the payer only...
 		for account in accountsNoCards:
 			transfersUrl = 'http://api.reimaginebanking.com/accounts/{}/transfers?type=payer&key={}'.format(account['_id'], apiKey)
 			transfersResponse = requests.get(transfersUrl)
 
+			# if the transfer GET request was successful, add the resulting transfers to the array of data
 			if transfersResponse.status_code == 200:
 				transfers.extend(json.loads(transfersResponse.text))
 
