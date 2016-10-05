@@ -6,13 +6,17 @@
 		<th>Status</th>
 	</tr>
 
-	{% for transfer in transfers %}
-	<tr>
-		<td>{{ transfer.payer_id }}</td>
-		<td>{{ transfer.payee_id }}</td>
-		<td>${{ transfer.amount }}</td>
-		<td class='status'>{{ transfer.status }}</td>
-	</tr>
-	{% endfor %}
-
+	{% if transfers|length == 0 %}
+		<tr><td>No transfer data available.</td></tr>
+	{% else %}
+		{% for transfer in transfers %}
+			<tr>
+				<td>{{ transfer.payer_id }}</td>
+				<td>{{ transfer.payee_id }}</td>
+				<td>${{ transfer.amount }}</td>
+				<td class='status'>{{ transfer.status }}</td>
+			</tr>
+		{% endfor %}
+	{% endif %}
+  
 </table>
