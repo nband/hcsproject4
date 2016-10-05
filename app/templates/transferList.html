@@ -1,0 +1,18 @@
+<table class="table table-striped">
+	<tr>
+		<th>Pay From</th>
+		<th>Pay To</th>
+		<th>Amount</th>
+		<th>Status</th>
+	</tr>
+
+	{% for transfer in transfers %}
+	<tr>
+		<td>{{ transfer.payer_id }}</td>
+		<td>{{ transfer.payee_id }}</td>
+		<td>{{ transfer.amount }}</td>
+		<td>{{ transfer.status }}</td>
+	</tr>
+	{% endfor %}
+
+</table>

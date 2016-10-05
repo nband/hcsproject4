@@ -18,12 +18,12 @@
 			<!-- Column Titles Row -->
 			<div class="row">
 				<div class="col-md-1">&nbsp;</div>
-				<div class="col-md-4">
+				<div class="col-md-3">
 					<h3>My Accounts</h3>
 					<br>
 				</div>
 				<div class="col-md-1">&nbsp;</div>
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<h3>Transfer Money</h3>
 					<br>
 				</div>
@@ -34,15 +34,20 @@
 				<div class="col-md-1">&nbsp;</div>
 		
 				<!-- Accounts List Column -->
-				<div class="col-md-4">
+				<div class="col-md-3">
 					{% include 'accounts.html' %}
 		    	</div>
 			
 				<div class="col-md-1">&nbsp;</div>
 
 				<!-- Money Transfer Column -->
-				<div class="col-md-4">
-					{% include 'transfer.html' %}
+				<div class="col-md-6">
+					{% include 'transferForm.html' %}
+					
+					<br>
+					<br>
+
+					{% include 'transferList.html' %}
 				</div>
 			</div>
     	</div>

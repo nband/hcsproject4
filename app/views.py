@@ -1,12 +1,21 @@
-from flask import render_template
+from flask import render_template, request
 from app import app
 
 import requests
 import json
-import json
+import datetime
 
 from app.utils import format_price
 
+from enum import Enum
+
+apiKey = "8c9f951688f6cf33204c1711017c5660";
+
+class Medium(Enum):
+	BALANCE = "balance"
+	REWARDS = "rewards"
+
+# http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/
 @app.after_request
 def after_request(response):
 	print response
@@ -20,7 +29,6 @@ def after_request(response):
 @app.route('/index')
 def index():
 	# create the URL for the request
-	apiKey = "8c9f951688f6cf33204c1711017c5660";
 	accountsUrl = 'http://api.reimaginebanking.com/accounts?key={}'.format(apiKey)
 
 	# make call to the Nessie Accounts endpoint
@@ -42,5 +50,30 @@ def index():
 # Transfer post route.  Makes request to Nessie API to create a transfer.
 @app.route('/transfer', methods=['POST'])
 def postTransfer():
-	# get data here and do something with it...
+	# get values from the request (populated by user into the form)
+	toAccount = request.form["toAccount"]
+	fromAccount = request.form["fromAccount"]
+	amount = float(request.form["amount"]) # need to convert to an int or this fails
+	description = request.form["description"]
+	
+	medium = Medium.BALANCE;
+	dateObject = datetime.date.today()
+	dateString = dateObject.strftime('%Y-%m-%d')
+
+	body = {
+		'medium' : medium,
+		'payee_id' : toAccount,
+		'amount' : amount,
+		'transaction_date' : dateString,
+		'description' : description
+	}
+	print(body)
+
+	url = "http://api.reimaginebanking.com/accounts/{}/transfers?key={}".format(fromAccount, apiKey)
+	response = requests.post(
+		url,
+		data=json.dumps(body),
+		headers={'content-type':'application/json'},)
+
+	print(response.text)
 	return render_template("notfound.html")
