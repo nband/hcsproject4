@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect
 from app import app
 
 import requests
@@ -59,16 +59,18 @@ def index():
 @app.route('/transfer', methods=['POST'])
 def postTransfer():
 	print("MADE IT HERE")
-	# get values from the request (populated by user into the form)
+	# get values from the request (populated by user into the form on the UI)
 	toAccount = request.form["toAccount"]
 	fromAccount = request.form["fromAccount"]
 	amount = float(request.form["amount"]) # need to convert to an int or this fails
 	description = request.form["description"]
 	
+	# set values that are not included in the form
 	medium = Medium.BALANCE;
 	dateObject = datetime.date.today()
 	dateString = dateObject.strftime('%Y-%m-%d')
 
+	# set up payload for request
 	body = {
 		'medium' : medium,
 		'payee_id' : toAccount,
@@ -77,10 +79,12 @@ def postTransfer():
 		'description' : description
 	}
 
+	# make the request to create the transfer
 	url = "http://api.reimaginebanking.com/accounts/{}/transfers?key={}".format(fromAccount, apiKey)
 	response = requests.post(
 		url,
 		data=json.dumps(body),
 		headers={'content-type':'application/json'},)
 
-	return render_template("notfound.html")
+	# redirect user to the same page, which should now show there latest transaction in the list
+	return redirect("/index", code=302)
