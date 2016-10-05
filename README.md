@@ -12,4 +12,4 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 2. `cd api-demo-app`
 3. `pip install requirements.txt`
 4. `python run.py`
-5. Navigated to **localhost:5000** to view the dashboard.
+5. Navigate to **localhost:5000** to view the dashboard.
