@@ -66,11 +66,17 @@ def index():
 # Transfer post route.  Makes request to Nessie API to create a transfer.
 @app.route('/transfer', methods=['POST'])
 def postTransfer():
-	print("MADE IT HERE")
 	# get values from the request (populated by user into the form on the UI)
-	toAccount = request.form["toAccount"]
 	fromAccount = request.form["fromAccount"]
-	amount = float(request.form["amount"]) # need to convert to an int or this fails
+	if fromAccount == "":
+		return redirect("/index", code=302)
+	
+	toAccount = request.form["toAccount"]
+	try:
+		amount = float(request.form["amount"]) # need to convert to an int or this fails
+	except ValueError:
+		amount = ""
+	
 	description = request.form["description"]
 	
 	# set values that are not included in the form
