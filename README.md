@@ -13,3 +13,8 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 3. `pip install requirements.txt`
 4. `python run.py`
 5. Navigate to **localhost:5000** to view the dashboard.
+
+
+![Alt text](/app/img/home-screen.png)
+
+![Alt text](/app/img/tranfer-list.png)
