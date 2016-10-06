@@ -18,6 +18,6 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 7. Navigate to **localhost:5000** to view the dashboard.
 
 
-![Alt text](/app/img/home-screen.png)
+![Alt text](/app/img/home-screen.jpg)
 
-![Alt text](/app/img/tranfer-list.png)
+![Alt text](/app/img/tranfer-list.jpg)
