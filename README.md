@@ -20,4 +20,4 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 
 ![Alt text](/app/img/home-screen.jpg)
 
-![Alt text](/app/img/tranfer-list.jpg)
+![Alt text](/app/img/transfer-list.jpg)
