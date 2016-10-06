@@ -10,7 +10,7 @@ from app.utils import format_price
 from enum import Enum
 
 # move this to a config file that will not be included in the repo
-apiKey = "8c9f951688f6cf33204c1711017c5660";
+apiKey = app.config["API_KEY"] # get the API Key from the config file
 
 # enum for the medium of transfer
 #  * balance - currency
