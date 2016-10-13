@@ -14,7 +14,7 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 4. Navigate to http://api.reimaginebanking.com and sign up to get an API key.
 5. Open the file you just created (config.py) and add your Nessie API key as a variable.  
     `API_KEY = "my_api_key"`  
-6. `pip install requirements.txt`
+6. `pip install -r requirements.txt`
 7. `python run.py`
 8. Navigate to **localhost:5000** to view the dashboard.
 
