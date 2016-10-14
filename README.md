@@ -10,13 +10,12 @@ A simple banking dashboard showing a user's accounts and transfers.  It also all
 
 1. `git clone https://github.kdc.capitalone.com/tld509/api-demo-app.git`
 2. `cd api-demo-app`
-3. `touch config.py`
-4. Navigate to http://api.reimaginebanking.com and sign up to get an API key.
-5. Open the file you just created (config.py) and add your Nessie API key as a variable.  
+3. Create a file `config.py` in the root directory of the project.
+4. Open the file you just created (config.py) and add your Nessie API key as a variable.  
     `API_KEY = "my_api_key"`  
-6. `pip install requirements.txt`
-7. `python run.py`
-8. Navigate to **localhost:5000** to view the dashboard.
+5. `pip install -r requirements.txt`
+6. `python run.py`
+7. Navigate to **localhost:5000** to view the dashboard.
 
 
 ![Alt text](/app/img/home-screen.jpg)

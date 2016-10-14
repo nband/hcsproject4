@@ -12,13 +12,6 @@ from enum import Enum
 # move this to a config file that will not be included in the repo
 apiKey = app.config["API_KEY"] # get the API Key from the config file
 
-# enum for the medium of transfer
-#  * balance - currency
-#  * rewards - rewards points
-class Medium(Enum):
-	BALANCE = "balance"
-	REWARDS = "rewards"
-
 # http://www.davidadamojr.com/handling-cors-requests-in-flask-restful-apis/
 @app.after_request
 def after_request(response):
@@ -41,7 +34,7 @@ def index():
 	if accountsResponse.status_code == 200:
 		accounts = json.loads(accountsResponse.text)
 
-		# filter out credit card accounts (can't transfer money to/from them)
+		# filter out any credit card accounts (can't transfer money to/from them)
 		accountsNoCards = []
 		for account in accounts:
 			if account["type"] != "Credit Card":
@@ -67,6 +60,7 @@ def index():
 @app.route('/transfer', methods=['POST'])
 def postTransfer():
 	# get values from the request (populated by user into the form on the UI)
+	# (added some error handling here for invalid form input)
 	fromAccount = request.form["fromAccount"]
 	if fromAccount == "":
 		return redirect("/index", code=302)
@@ -80,7 +74,7 @@ def postTransfer():
 	description = request.form["description"]
 	
 	# set values that are not included in the form
-	medium = Medium.BALANCE;
+	medium = "balance";
 	dateObject = datetime.date.today()
 	dateString = dateObject.strftime('%Y-%m-%d')
 
