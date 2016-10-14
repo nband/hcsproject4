@@ -44,7 +44,7 @@ def index():
 		transfers = []
 		
 		# for each account make a request to get it's transfers where it is the payer only...
-		for account in accountsNoCards:
+		for account in accounts:
 			transfersUrl = 'http://api.reimaginebanking.com/accounts/{}/transfers?type=payer&key={}'.format(account['_id'], apiKey)
 			transfersResponse = requests.get(transfersUrl)
 
@@ -52,7 +52,7 @@ def index():
 			if transfersResponse.status_code == 200:
 				transfers.extend(json.loads(transfersResponse.text))
 
-		return render_template("home.html", accounts=accountsNoCards, format_price=format_price, transfers=transfers)
+		return render_template("home.html", accounts=accounts, format_price=format_price, transfers=transfers)
 	else:
 		return render_template("notfound.html")
 
