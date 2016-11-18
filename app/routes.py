@@ -96,3 +96,85 @@ def postTransfer():
 
 	# redirect user to the same page, which should now show there latest transaction in the list
 	return redirect("/index", code=302)
+
+# Post route for conducting purchases. 
+@app.route('/purchase', methods=['POST'])
+def purchase():
+	
+	
+	# get the fixed account value from the HTML form
+	# NOTE - I encountered issues in getting ACCOUNT ID's specifically
+	# so, this step actually just gets "insertidhere" in the field
+	Account = request.form["Account"]
+	if Account == "":
+		return redirect("/index", code=302)
+	
+	Merchant = request.form["Merchant"]
+	try:
+		amount = float(request.form["amount"]) # need to convert to an int or this fails
+	except ValueError:
+		amount = ""
+	
+	description = request.form["description"]
+	
+	# set values that are not included in the form
+	medium = "balance";
+	dateObject = datetime.date.today()
+	dateString = dateObject.strftime('%Y-%m-%d')
+
+	# set up payload for request
+	body = {
+		'medium' : medium,
+		'payee_id' : Merchant,
+		'amount' : amount,
+		'transaction_date' : dateString,
+		'description' : description
+	}
+
+	# make the request to create the transfer
+	url = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}".format(Account, apiKey)
+	response = requests.post(
+		url,
+		data=json.dumps(body),
+		headers={'content-type':'application/json'},)
+
+	# redirect user to the index page
+	return redirect("/index", code=302)
+	
+# Load the purchases. 
+@app.route('/purchaseList', methods=['GET'])
+def purchaseList():
+	
+	# create the URL for the request
+	accountsUrl = 'http://api.reimaginebanking.com/accounts?key={}'.format(apiKey)
+
+	# make call to the Nessie Accounts endpoint
+	accountsResponse = requests.get(accountsUrl)
+	
+	# if the accounts call responds with success
+	if accountsResponse.status_code == 200:
+		accounts = json.loads(accountsResponse.text)
+	
+	# create the URL for the request
+	purchasesUrl = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}".format(accounts['_id'], apiKey)
+
+	# make call to the Nessie Accounts endpoint
+	purchasesResponse = requests.get(purchasesUrl)
+	
+	# if the accounts call responds with success
+	if purchasesResponse.status_code == 200:
+		purchases = json.loads(purchasesResponse.text)
+
+		# variable which will keep track of all purchases to pass to UI
+		purchases = []
+		
+		# for each account make a request to get it's transfers where it is the payer only...
+		for account in accounts:
+			purchasesURL = "http://api.reimaginebanking.com/accounts/{}/purchases?key={}".format(accounts['_id'], apiKey)
+			purchasesResponse = requests.get(purchasesUrl)
+
+			# if the transfer GET request was successful, add the resulting transfers to the array of data
+			if purchasesResponse.status_code == 200:
+				purchases.extend(json.loads(purchasesResponse.text))
+
+		return render_template("purchaseList.html", accounts=accounts, format_price=format_price, purchases=purchases)

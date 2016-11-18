@@ -1,0 +1,29 @@
+<div class="well well-sm">
+	
+	<p>From: <span id="Account"></span></p>
+	<button class="btn btn-default" id="insertidhere">Your Account</button>
+
+	<br>
+	<br>
+
+	<p>To: <span id="Merchant"></span></p>
+	<button class="btn btn-default" id="57cf75cea73e494d8675ec49">Dunkin' Donuts</button>
+
+	<br>
+	<br>
+
+	<form action="/purchase" method="POST">
+		<p>Amount: <span id="purchaseAmount"></span></p>
+		<input id="amount" type="text" name="amount" />
+		<br><br>
+		<p>Description: <span id="purchaseDescription"></span></p>
+		<input id="description" type="text" name="description" />
+		<br><br>
+
+		<!-- hidden fields populated by JS -->
+		<input id="Merchant" type="hidden" name="Merchant" />
+		<input id="Account" type="hidden" name="Account" />
+
+		<input type="submit" class="btn btn-primary" name="Confirm Purchase">
+	</form>
+</div>
